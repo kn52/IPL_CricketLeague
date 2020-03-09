@@ -29,4 +29,10 @@ public class IPLCricketLeagueAnalyser {
                 .sorted(Comparator.comparing(x -> x.average, Comparator.reverseOrder()))
                 .collect(Collectors.toList()).get(0).player;
     }
+
+    public String getSortByStrike() {
+        return csvList.stream()
+                .sorted(Comparator.comparing(x -> x.strikeRate, Comparator.reverseOrder()))
+                .collect(Collectors.toList()).get(0).player;
+    }
 }

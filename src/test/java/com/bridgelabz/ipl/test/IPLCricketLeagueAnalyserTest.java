@@ -20,7 +20,17 @@ public class IPLCricketLeagueAnalyserTest {
             Assert.assertEquals("MS Dhoni",playerName);
         } catch (IPLCricketLeagueAnalyserException e) {
         }
+    }
 
+    @Test
+    public void givenBatsmanFilePath_WhenProper_ShouldReturn_TopBatsmanName_ByStrikeRate() {
+        try {
+            iplAnalyser=new IPLCricketLeagueAnalyser();
+            iplAnalyser.loadData(BATSMAN_CSV_FILE_PATH);
+            String playerName=iplAnalyser.getSortByStrike();
+            System.out.println("2->"+playerName);
+            Assert.assertEquals("Ishant Sharma",playerName);
+        } catch (IPLCricketLeagueAnalyserException e) { }
     }
 }
 
