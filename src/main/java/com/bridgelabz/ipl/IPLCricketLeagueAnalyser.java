@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class IPLCricketLeagueAnalyser {
+
     public enum PlayerType { BATSMAN,BOWLER };
-    public enum SortField { AVERAGE,STRIKERATE,SIXES_FOURS,RUNS };
+    public enum SortField { AVERAGE,STRIKERATE,SIXES_FOURS,RUNS,ECONOMY };
     Map<SortField,Comparator<IPLCricketLeagueDTO>> sortFieldMap=null;
     List<IPLCricketLeagueDTO> csvList=null;
     Map<String,IPLCricketLeagueDTO> playerMap=null;
@@ -35,13 +36,41 @@ public class IPLCricketLeagueAnalyser {
         csvList = playerMap.values().stream().sorted(this.sortFieldMap.get(field)).collect(Collectors.toList());
         return csvList.get(0).player;
     }
+
+    public String getSortByStrikeRate_Six_Four(SortField field1, SortField field2) {
+        Comparator<IPLCricketLeagueDTO> comparator=this.sortFieldMap.get(field1);
+        comparator.thenComparing(this.sortFieldMap.get(field2));
+        csvList=playerMap.values().stream().sorted(comparator).collect(Collectors.toList());
+        return csvList.get(0).player;
+    }
+
+    public String getSortByAverage_StrikeRate(SortField field1, SortField field2) {
+        Comparator<IPLCricketLeagueDTO> comparator=this.sortFieldMap.get(field1);
+        comparator.thenComparing(this.sortFieldMap.get(field2));
+        csvList=playerMap.values().stream().sorted(comparator).collect(Collectors.toList());
+        return csvList.get(0).player;
+    }
+
+    public String getSortByRun_Average(SortField field1, SortField field2) {
+        Comparator<IPLCricketLeagueDTO> comparator=this.sortFieldMap.get(field1);
+        comparator.thenComparing(this.sortFieldMap.get(field2));
+        csvList=playerMap.values().stream().sorted(comparator).collect(Collectors.toList());
+        return csvList.get(0).player;
+    }
+
+    public String getSortByEconomy(SortField field) {
+        csvList = playerMap.values().stream().sorted(this.sortFieldMap.get(field)).collect(Collectors.toList());
+        return csvList.get(0).player;
+    }
+
     public IPLCricketLeagueAnalyser(PlayerType playerType) {
         this.playerType=playerType;
         sortFieldMap =new HashMap<>();
         sortFieldMap.put(SortField.AVERAGE,Comparator.comparing(x->x.average,Comparator.reverseOrder()));
         sortFieldMap.put(SortField.STRIKERATE,Comparator.comparing(x->x.strikeRate,Comparator.reverseOrder()));
-        sortFieldMap.put(SortField.SIXES_FOURS,Comparator.comparing(x->(x.sixes+x.fours),Comparator.reverseOrder()));
+        sortFieldMap.put(SortField.SIXES_FOURS,new ComparatorSort().reversed());
         sortFieldMap.put(SortField.RUNS,Comparator.comparing(x->x.runs,Comparator.reverseOrder()));
+        sortFieldMap.put(SortField.ECONOMY,Comparator.comparing(x->x.economy,Comparator.reverseOrder()));
     }
 
     public void loadData(PlayerType player, String csvPath) {
@@ -54,5 +83,5 @@ public class IPLCricketLeagueAnalyser {
             }
         }
 
-
 }
+
