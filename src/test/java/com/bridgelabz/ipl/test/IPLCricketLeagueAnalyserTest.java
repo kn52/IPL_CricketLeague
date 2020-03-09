@@ -83,5 +83,16 @@ public class IPLCricketLeagueAnalyserTest {
             Assert.assertEquals("Krishnappa Gowtham",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
+
+    @Test
+    public void givenBowlerFilePath_WhenProper_ShouldReturn_TopBowlerName_ByStrikeRate() {
+        try {
+            iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
+            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
+            String playerName=iplAnalyser.getSortByStrike(IPLCricketLeagueAnalyser.SortField.STRIKERATE);
+            System.out.println(playerName);
+            Assert.assertEquals("Krishnappa Gowtham",playerName);
+        } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
+    }
 }
 
