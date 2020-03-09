@@ -1,4 +1,4 @@
-package com.brideglabz.ipl;
+package com.bridgelabz.ipl;
 
 import com.opencsv.bean.CsvBindByName;
 

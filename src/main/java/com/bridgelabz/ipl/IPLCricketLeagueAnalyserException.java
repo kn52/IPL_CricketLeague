@@ -1,9 +1,13 @@
-package com.brideglabz.ipl;
+package com.bridgelabz.ipl;
 
 public class IPLCricketLeagueAnalyserException extends RuntimeException {
 
+    public IPLCricketLeagueAnalyserException(String incorrect, String message) {
+        super(message);
+    }
+
     public enum ExceptionType{
-        FILE_PROBLEM
+        FILE_PROBLEM,NO_SUCH_PlAYER
     }
     ExceptionType type;
 
