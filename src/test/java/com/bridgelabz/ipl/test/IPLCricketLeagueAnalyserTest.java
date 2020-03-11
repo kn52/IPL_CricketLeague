@@ -124,11 +124,29 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByWickets_Average(IPLCricketLeagueAnalyser.SortField.AVERAGE, IPLCricketLeagueAnalyser.SortField.WICKETS);
-            Assert.assertEquals("Krishnappa Gowtham",playerName);
+            String playerName=iplAnalyser.getSortByWickets_Average(IPLCricketLeagueAnalyser.SortField.WICKETS,IPLCricketLeagueAnalyser.SortField.AVERAGE);
+            Assert.assertEquals("Imran Tahir",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 
+    @Test
+    public void givenBatsmanBowlerFilePath_WhenProper_ShouldReturn_TopBatsmanBowlerName_ByBattingBowlingAverage() {
+        try {
+            iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER);
+            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER,BATSMAN_CSV_FILE_PATH,BOWLER_CSV_FILE_PATH);
+            String playerName=iplAnalyser.getSortByBattingBowlingAverage(IPLCricketLeagueAnalyser.SortField.BTAVERAGE,IPLCricketLeagueAnalyser.SortField.BLAVERAGE);
+            Assert.assertEquals("Marcus Stoinis",playerName);
+        } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
+    }
 
+    @Test
+    public void givenBatsmanBowlerFilePath_WhenProper_ShouldReturn_TopBatsmanBowlerName_ByRuns_Wickets() {
+        try {
+            iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER);
+            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER,BATSMAN_CSV_FILE_PATH,BOWLER_CSV_FILE_PATH);
+            String playerName=iplAnalyser.getSortByRuns_Wickets(IPLCricketLeagueAnalyser.SortField.WICKETS,IPLCricketLeagueAnalyser.SortField.RUNS);
+            Assert.assertEquals("Imran Tahir",playerName);
+        } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
+    }
 }
 

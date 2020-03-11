@@ -3,6 +3,8 @@ package com.bridgelabz.ipl;
 public class IPLCricketLeagueDTO {
     public String player;
     public double average;
+    public double btaverage;
+    public double blaverage;
     public double strikeRate;
     public int sixes;
     public int fours;
@@ -15,6 +17,7 @@ public class IPLCricketLeagueDTO {
     public IPLCricketLeagueDTO(BatsmanCSV batsmanCode) {
         this.player=batsmanCode.player;
         this.average=batsmanCode.average;
+        this.btaverage=batsmanCode.average;
         this.strikeRate=batsmanCode.strikeRate;
         this.fours=batsmanCode.fours;
         this.sixes=batsmanCode.sixes;
@@ -24,6 +27,7 @@ public class IPLCricketLeagueDTO {
     public IPLCricketLeagueDTO(BowlerCSV bowlerCode) {
         this.player=bowlerCode.player;
         this.average=bowlerCode.average;
+        this.blaverage=bowlerCode.average;
         this.strikeRate=bowlerCode.strikeRate;
         this.economy=bowlerCode.economy;
         this.fourW=bowlerCode.fourW;
