@@ -1,8 +1,6 @@
 package com.bridgelabz.ipl;
 
 import com.bridgelabz.census.CSVBuilderException;
-import com.bridgelabz.census.CSVBuilderFactory;
-import com.bridgelabz.census.ICSVBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,39 +8,53 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.stream.StreamSupport;
 
-public abstract class IPLAdapter {
-    public abstract Map<String, IPLCricketLeagueDTO> loadPlayerData(String... csvPath);
+public class IPLAdapter extends IPLLoader{
+    static Map<String, IPLCricketLeagueDTO> map0=null;
+    static Map<String, IPLCricketLeagueDTO> map1=null;
 
-    protected  <E> Map<String,IPLCricketLeagueDTO> loadPlayerData(Class<E> csvClass, String csvPath) {
-        Map<String, IPLCricketLeagueDTO> map=new HashMap<>();
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvPath));
-            ICSVBuilder csvBuilder=CSVBuilderFactory.createBuilder();
-            Iterator<E> playerIterator= csvBuilder.getCSVFileIterator(reader, csvClass);
-            Iterable<E> stateCensusIterable=()->playerIterator;
-            if (csvClass.getName().equals("com.bridgelabz.ipl.BatsmanCSV")){
-                StreamSupport.stream(stateCensusIterable.spliterator(),false)
-                        .map(BatsmanCSV.class::cast)
-                        .forEach(batsmanCode -> map.put(batsmanCode.player,new IPLCricketLeagueDTO(batsmanCode)));
+    @Override
+    public <E> Map<String,IPLCricketLeagueDTO> loadPlayerData(IPLCricketLeagueAnalyser.PlayerType type, String... csvPath) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvPath[0]));){
+            if(type.equals(IPLCricketLeagueAnalyser.PlayerType.BATSMAN)) {
+                map0=new HashMap<>();
+                map0=createIterable(reader,BatsmanCSV.class,type);
+                if(csvPath.length>1){
+                    return  loadData(csvPath[1]);
+                }
+                return map0;
             }
-            else if(csvClass.getName().equals("com.bridgelabz.ipl.BowlerCSV")){
-                StreamSupport.stream(stateCensusIterable.spliterator(),false)
-                        .map(BowlerCSV.class::cast)
-                        .forEach(bowlerCode -> map.put(bowlerCode.player,new IPLCricketLeagueDTO(bowlerCode)));
+            else if(type.equals(IPLCricketLeagueAnalyser.PlayerType.BOWLER)){
+                map1=new HashMap<>();
+                map1=createIterable(reader,BowlerCSV.class, type);
+                return map1;
             }
-            return map;
+
         }catch (NoSuchFileException e){}
         catch (IOException ioe) {
             throw new IPLCricketLeagueAnalyserException(ioe.getMessage(),IPLCricketLeagueAnalyserException.ExceptionType.FILE_PROBLEM);
-        } catch (CSVBuilderException e) {
-            throw new IPLCricketLeagueAnalyserException("Incorrect",e.getMessage());
         }catch (RuntimeException e){
             throw new IPLCricketLeagueAnalyserException(e.getMessage(),IPLCricketLeagueAnalyserException.ExceptionType.FILE_PROBLEM);
         }
         return null;
+    }
+
+    private static <E> Map<String, IPLCricketLeagueDTO> loadData(String csvPath) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvPath));) {
+            map1=new HashMap<>();
+            map1=createIterable(reader,BowlerCSV.class,IPLCricketLeagueAnalyser.PlayerType.BOWLER);
+            map1.values().stream()
+                    .filter(data-> IPLAdapter.map0.get(data.player)!=null)
+                    .forEach(data->{
+                        IPLAdapter.map0.get(data.player).blaverage=data.blaverage;
+                        IPLAdapter.map0.get(data.player).wickets = data.wickets;
+                    });
+            return map0;
+        }catch (IOException ioe) {
+            throw new IPLCricketLeagueAnalyserException(ioe.getMessage(), IPLCricketLeagueAnalyserException.ExceptionType.FILE_PROBLEM);
+        } catch (RuntimeException e) {
+            throw new IPLCricketLeagueAnalyserException(e.getMessage(), IPLCricketLeagueAnalyserException.ExceptionType.FILE_PROBLEM);
+        }
     }
 }

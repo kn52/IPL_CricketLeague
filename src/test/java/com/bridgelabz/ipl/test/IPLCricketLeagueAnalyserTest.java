@@ -1,5 +1,6 @@
 package com.bridgelabz.ipl.test;
 
+import com.bridgelabz.ipl.ComparatorSort;
 import com.bridgelabz.ipl.IPLCricketLeagueAnalyser;
 import com.bridgelabz.ipl.IPLCricketLeagueAnalyserException;
 import org.junit.Assert;
@@ -8,15 +9,13 @@ import org.junit.Test;
 public class IPLCricketLeagueAnalyserTest {
     private static final String BATSMAN_CSV_FILE_PATH="./src/test/resources/IPL2019FactsheetMostRuns.csv";
     private static final String BOWLER_CSV_FILE_PATH="./src/test/resources/IPL2019FactsheetMostWkts.csv";
-
     IPLCricketLeagueAnalyser iplAnalyser;
-
     @Test
     public void givenBatsmanFilePath_WhenProper_ShouldReturn_TopBatsmanName() {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByAverage(IPLCricketLeagueAnalyser.SortField.AVERAGE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_AVERAGE);
             Assert.assertEquals("MS Dhoni",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -26,7 +25,7 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByStrike(IPLCricketLeagueAnalyser.SortField.STRIKERATE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_STRIKE_RATE);
             Assert.assertEquals("Ishant Sharma",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -35,8 +34,8 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH);
-            String name=iplAnalyser.getSortByBoundary(IPLCricketLeagueAnalyser.SortField.SIXES_FOURS);
-            Assert.assertEquals("Andre Russell",name);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_SIX_FOUR);
+            Assert.assertEquals("Andre Russell",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 
@@ -45,8 +44,8 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH);
-            String name=iplAnalyser.getSortByStrikeRate_Six_Four(IPLCricketLeagueAnalyser.SortField.SIXES_FOURS, IPLCricketLeagueAnalyser.SortField.STRIKERATE);
-            Assert.assertEquals("Andre Russell",name);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_STRIKE_SIX_FOUR);
+            Assert.assertEquals("Andre Russell",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace();  }
     }
     @Test
@@ -54,8 +53,8 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH);
-            String name=iplAnalyser.getSortByAverage_StrikeRate(IPLCricketLeagueAnalyser.SortField.AVERAGE, IPLCricketLeagueAnalyser.SortField.STRIKERATE);
-            Assert.assertEquals("MS Dhoni",name);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_AVERAGE_STRIKE_RATE);
+            Assert.assertEquals("MS Dhoni",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 
@@ -64,8 +63,8 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH);
-            String name=iplAnalyser.getSortByRun_Average(IPLCricketLeagueAnalyser.SortField.AVERAGE, IPLCricketLeagueAnalyser.SortField.RUNS);
-            Assert.assertEquals("MS Dhoni",name);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_RUNS_AVERAGE);
+            Assert.assertEquals("MS Dhoni",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 
@@ -74,7 +73,7 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByAverage(IPLCricketLeagueAnalyser.SortField.AVERAGE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BW_AVERAGE);
             Assert.assertEquals("Krishnappa Gowtham",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -84,7 +83,7 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByStrike(IPLCricketLeagueAnalyser.SortField.STRIKERATE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BW_STRIKE_RATE);
             Assert.assertEquals("Krishnappa Gowtham",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -94,17 +93,17 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByEconomy(IPLCricketLeagueAnalyser.SortField.ECONOMY);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BW_ECONOMY);
             Assert.assertEquals("Ben Cutting",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 
     @Test
-    public void givenBowlerFilePath_WhenProper_ShouldReturn_TopBowlerName_ByFourFiveWickets() {
+    public void givenBowlerFilePath_WhenProper_ShouldReturn_TopBowlerName_ByStrike_FourFiveWickets() {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByFourFiveWickets(IPLCricketLeagueAnalyser.SortField.FOURW_FIVEW, IPLCricketLeagueAnalyser.SortField.STRIKERATE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BW_STRIKE_FOURW_FIVEW);
             Assert.assertEquals("Lasith Malinga",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -114,7 +113,7 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByAverage_StrikeRate(IPLCricketLeagueAnalyser.SortField.AVERAGE, IPLCricketLeagueAnalyser.SortField.STRIKERATE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BW_AVRAGE_STRIKE);
             Assert.assertEquals("Krishnappa Gowtham",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -124,7 +123,7 @@ public class IPLCricketLeagueAnalyserTest {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BOWLER);
             iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BOWLER,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByWickets_Average(IPLCricketLeagueAnalyser.SortField.WICKETS,IPLCricketLeagueAnalyser.SortField.AVERAGE);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BW_WICKETS_AVRAGE);
             Assert.assertEquals("Imran Tahir",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
@@ -133,9 +132,9 @@ public class IPLCricketLeagueAnalyserTest {
     public void givenBatsmanBowlerFilePath_WhenProper_ShouldReturn_TopBatsmanBowlerName_ByBattingBowlingAverage() {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER);
-            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER,BATSMAN_CSV_FILE_PATH,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByBattingBowlingAverage(IPLCricketLeagueAnalyser.SortField.BTAVERAGE,IPLCricketLeagueAnalyser.SortField.BLAVERAGE);
-            Assert.assertEquals("Marcus Stoinis",playerName);
+            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH,BOWLER_CSV_FILE_PATH);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_BW_AVERAGE);
+            Assert.assertEquals("Krishnappa Gowtham",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 
@@ -143,9 +142,9 @@ public class IPLCricketLeagueAnalyserTest {
     public void givenBatsmanBowlerFilePath_WhenProper_ShouldReturn_TopBatsmanBowlerName_ByRuns_Wickets() {
         try {
             iplAnalyser=new IPLCricketLeagueAnalyser(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER);
-            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN_BOWLER,BATSMAN_CSV_FILE_PATH,BOWLER_CSV_FILE_PATH);
-            String playerName=iplAnalyser.getSortByRuns_Wickets(IPLCricketLeagueAnalyser.SortField.WICKETS,IPLCricketLeagueAnalyser.SortField.RUNS);
-            Assert.assertEquals("Imran Tahir",playerName);
+            iplAnalyser.loadData(IPLCricketLeagueAnalyser.PlayerType.BATSMAN,BATSMAN_CSV_FILE_PATH,BOWLER_CSV_FILE_PATH);
+            String playerName=iplAnalyser.getSortByField(ComparatorSort.SortType.BT_BW_RUNS_WICKETS);
+            Assert.assertEquals("Andre Russell",playerName);
         } catch (IPLCricketLeagueAnalyserException e) { e.printStackTrace(); }
     }
 }
