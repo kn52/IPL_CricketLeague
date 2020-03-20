@@ -17,7 +17,6 @@ public class IPLCricketLeagueDTO {
     public IPLCricketLeagueDTO(BatsmanCSV batsmanCode) {
         this.player=batsmanCode.player;
         this.btaverage=batsmanCode.average;
-        this.btaverage=batsmanCode.average;
         this.btstrikeRate=batsmanCode.strikeRate;
         this.fours=batsmanCode.fours;
         this.sixes=batsmanCode.sixes;
@@ -35,7 +34,14 @@ public class IPLCricketLeagueDTO {
         this.wickets=bowlerCode.wickets;
     }
 
-    public IPLCricketLeagueDTO() {
+    public IPLCricketLeagueDTO() { }
 
+    public IPLCricketLeagueDTO(String player, int runs, double btaverage, int btstrikeRate, int sixes, int fours) {
+        this.player=player;
+        this.btaverage=btaverage;
+        this.btstrikeRate=btstrikeRate;
+        this.fours=fours;
+        this.sixes=sixes;
+        this.runs=runs;
     }
 }
